@@ -6,14 +6,23 @@ use constants\Rules;
 use customException\BadRequestException;
 use helpers\RequestHelper;
 use helpers\ResourceHelper;
+use Mixins\AuthenticateUser;
 use Models\Likes;
 use Models\Posts;
 use customException\SourceNotFound;
 use Models\User;
-use function Symfony\Component\String\u;
 
 class PostController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->skipHandler = ['show', 'index','like','unLike'];
+    }
+
+    use AuthenticateUser;
+
     protected $validationSchema = [
         "index" => [
             "url" => [
@@ -137,8 +146,9 @@ class PostController extends BaseController
 
     }
 
-    protected function create($userId)
+    protected function create()
     {
+        $userId = $this->userAuthenticated->id;
         $user = User::query()->find($userId);
         $payload = RequestHelper::getRequestPayload();
         if (!$user) {
@@ -154,7 +164,11 @@ class PostController extends BaseController
 
     protected function update($postId)
     {
+
         $post = Posts::query()->find($postId);
+
+        $this->userAuthenticated->validateIsUserAuthorizedTo($post);
+
         $payload = RequestHelper::getRequestPayload();
         if (!$post) {
             throw new SourceNotFound();
@@ -174,7 +188,14 @@ class PostController extends BaseController
         if (!(Posts::query()->where("id", $postId)->exists())) {
             throw new SourceNotFound();
         }
-        Posts::query()->find($postId)->delete();
+
+
+        $post =Posts::query()->find($postId);
+
+        $this>$this->userAuthenticated->validateIsUserAuthorizedTo($post);
+
+        $post->delete();
+
         return ["message " => "post deleted "];
 
     }

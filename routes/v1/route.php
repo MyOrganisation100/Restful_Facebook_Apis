@@ -24,7 +24,7 @@ Route::DELETE("users/{id}",UserController::class);
 
 Route::GET('users/{userId}/posts',PostController::class);
 Route::GET('posts/{postId}',PostController::class,"show");
-Route::POST('users/{userId}/posts',PostController::class);
+Route::POST('posts',PostController::class);
 Route::PUT('posts/{postId}',PostController::class);
 Route::DELETE('posts/{postId}',PostController::class);
 

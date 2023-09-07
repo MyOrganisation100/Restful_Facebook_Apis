@@ -3,17 +3,18 @@
 namespace customException;
 
 use constants\StatusCode;
-use Exception;
 
-class BadRequestException extends BaseException
+class UnAuthenticatedUserException extends BaseException
 {
+
+
     protected function getMessageException($message)
     {
-        return $message ?: "Bad Usage Exception";
+        return $message ?: "Wrong Credential";
     }
 
     protected function getCodeException()
     {
-        return StatusCode::VALIDATION_ERROR;
+        return StatusCode::UNAUTHORIZED;
     }
 }

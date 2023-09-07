@@ -43,7 +43,6 @@ class RequestHelper
      * */
     public static function getRequestPayload(){
         $data_as_string_in_json_format=file_get_contents("php://input");
-
         if (! $data_as_string_in_json_format)
             return [];
 
@@ -63,6 +62,7 @@ class RequestHelper
         $path_parts=self::getRequestUriAsArray();
 
         $resource=array_pop($path_parts);
+
         if (ctype_digit($resource)){
             return $resource;
         }

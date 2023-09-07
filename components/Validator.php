@@ -8,6 +8,7 @@ use Mixins\BasicRulesValidation, Mixins\DatabaseRulesValidation;
 
 use Models\User;
 use Exception;
+use function Symfony\Component\String\s;
 
 class Validator
 {
@@ -51,7 +52,7 @@ class Validator
      * @throws \BadFunctionCallException
      * */
 
-    public  function validate($schema, $values, $level)
+    public function validate($schema, $values, $level)
     {
         if ($schema != null) {
             foreach ($schema as $key => $rules) {
@@ -79,16 +80,15 @@ class Validator
                             $rule = $specialKey;
                         }
 
-
                         $rule_method = "validate_rule_is_" . $rule;
 
                         $this->$rule_method(...$argument);
                     }
                 }
             }
-            }
-
         }
+
+    }
 
 
     /**
@@ -102,7 +102,7 @@ class Validator
      * @var Model $model
      * */
 
-    public  function validateUrlVariables($schema, $values)
+    public function validateUrlVariables($schema, $values)
     {
         self::validate($schema, $values, "url variables level ");
 
@@ -120,7 +120,7 @@ class Validator
      * @throws \Exception
      * */
 
-    public  function validateQueryParams($schema, $values)
+    public function validateQueryParams($schema, $values)
 
     {
         self::validate($schema, $values, "query params level ");
@@ -139,7 +139,7 @@ class Validator
      * @throws \BadFunctionCallException
      * */
 
-    public  function validatePayloadData($schema, $values)
+    public function validatePayloadData($schema, $values)
     {
         self::validate($schema, $values, " payload data level ");
 

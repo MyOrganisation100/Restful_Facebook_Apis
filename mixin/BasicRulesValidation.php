@@ -2,7 +2,6 @@
 namespace Mixins;
 
 use customException\BadRequestException;
-use mysql_xdevapi\Exception;
 
 trait BasicRulesValidation{
 

@@ -1,12 +1,20 @@
 <?php
 
 namespace customException;
-use Exception;
-class SourceNotFound extends Exception
-{
-   public function __construct(string $message = "source not found ", int $code = 404)
-   {
-       parent::__construct($message, $code);
-   }
 
+use constants\StatusCode;
+use Exception;
+
+class SourceNotFound extends BaseException
+{
+
+    protected function getMessageException($message = "")
+    {
+        return $message ?: "source not found";
+    }
+
+    protected function getCodeException()
+    {
+        return StatusCode::NOT_FOUND;
+    }
 }

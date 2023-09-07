@@ -5,13 +5,22 @@ namespace Controller;
 use constants\Rules;
 use helpers\RequestHelper;
 use helpers\ResourceHelper;
-use Illuminate\Database\Eloquent\Model;
+use Mixins\AuthenticateUser;
 use Models\User;
 use customException\SourceNotFound;
 use Exception;
 
 class UserController extends BaseController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->skipHandler=['index','show','create'];
+
+    }
+    use AuthenticateUser;
 
 
     protected $validationSchema = [
@@ -83,6 +92,7 @@ class UserController extends BaseController
 
     protected function create()
     {
+
         $payload = RequestHelper::getRequestPayload();
         $payload['password'] = md5($payload['password']);
 
@@ -95,13 +105,19 @@ class UserController extends BaseController
 
     protected function update($id)
     {
+
+
         $payload = RequestHelper::getRequestPayload();
+
+        $user = ResourceHelper::findResourceOR404Exception(User::class,$id);
+
+        $this->userAuthenticated->validateIsUserAuthorizedTo($user,"id");
 
         if (key_exists("password",$payload) ) {
             throw new Exception("password can't be update by this API.");
         }
 
-        $user = ResourceHelper::findResourceOR404Exception(User::class,$id);
+
         $user->update($payload);
 
         return [
@@ -112,9 +128,13 @@ class UserController extends BaseController
 
     protected function delete($id)
     {
+
         $payload = RequestHelper::getRequestPayload();
 
         $user = ResourceHelper::findResourceOR404Exception(User::class,$id);
+
+        $this->userAuthenticated->validateIsUserAuthorizedTo($user,"id");
+
         $user->delete($payload);
 
         return [
