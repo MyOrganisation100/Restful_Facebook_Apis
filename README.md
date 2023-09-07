@@ -51,7 +51,7 @@ Follow these steps to set up and use the project:
 1. **Clone the Repository**: Clone this repository to your local machine.
 
 ```pash
-get clone git@github.com:salehzt100/Facebook_api.git
+get clone git@github.com:salehzt100/Restful_Facebook_Apis.git
 ```
 2. Create a .env File: Create a .env file in the project root directory with the following content, replacing the placeholders with your actual database configuration:
 
