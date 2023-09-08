@@ -5,10 +5,10 @@
 Explore these APIs and take full charge of your Facebook integration to create engaging and personalized user experiences.
 </p>
 <br>
+<hr>
+<br>
 
 ## Project Overview
-
-
 
 This project leverages advanced PHP features and the Laravel framework to provide a comprehensive solution for integrating with Facebook. Key components and features include:
 
@@ -26,20 +26,49 @@ This project leverages advanced PHP features and the Laravel framework to provid
 
 - **.htaccess**: We've included an `.htaccess` file for Apache web server configuration.
 
+  <br>
+<hr>
+<br>
+
+  ## Authentication and Authorization
+
+Our project utilizes basic authentication to verify user credentials and ensure access control. Here's how it works:
+
+- **Basic Authentication**: We use basic authentication to verify user credentials before granting access to protected API endpoints.Only users with valid usernames and passwords can authenticate and access the APIs.
+
+- **Authorization**: After authentication, the project includes authorization checks to control what authenticated users can do within the application.This ensures that users are only able to perform actions they are authorized for, based on their roles and permissions.
+
+By combining basic authentication and authorization, we maintain the security and integrity of our APIs, allowing users to interact with the application while ensuring they only perform authorized actions.
+
+<br>
+<hr>
+<br>
+
 ## Getting Started
 
 Follow these steps to set up and use the project:
 
 1. **Clone the Repository**: Clone this repository to your local machine.
 
-```php
-get clone git@github.com:salehzt100/Facebook_api.git
+```pash
+get clone git@github.com:salehzt100/Restful_Facebook_Apis.git
 ```
+2. Create a .env File: Create a .env file in the project root directory with the following content, replacing the placeholders with your actual database configuration:
+
+```env
+DB_DRIVER = mysql
+DB_HOST = 127.0.0.1
+DB_NAME = Facebook-API
+DB_USERNAME = root
+DB_PASS =
 
 
-2. **Install Dependencies**: Use Composer to install project dependencies.
+```
+   
 
-```php
+3. **Install Dependencies**: Use Composer to install project dependencies.
+
+```pash
  composer install
  ```
 
@@ -49,7 +78,12 @@ get clone git@github.com:salehzt100/Facebook_api.git
 5. **Start Development Server**: Start the development server.
 
 
-7. **Explore API Endpoints**: Use the Postman collection linked above to explore and test the API endpoints.
+6. **Explore API Endpoints**: Use the Postman collection linked above to explore and test the API endpoints.
+
+
+<br>
+<hr>
+<br>
 
 ## API Endpoints
 
