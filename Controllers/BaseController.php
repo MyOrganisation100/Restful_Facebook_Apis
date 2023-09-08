@@ -41,6 +41,12 @@ abstract class  BaseController
     }
 
 
+    /**
+     * @param $method
+     * @param $arguments
+     * @return array|string[]
+     * @throws \Exception
+     */
     public function __call($method, $arguments)
     {
 

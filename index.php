@@ -33,6 +33,12 @@ try {
 } catch (BadRequestException $e) {
     echo "error : " . $e->getMessage();
     $code = StatusCode::VALIDATION_ERROR;
+}catch(UnAuthenticatedUserException $e){
+    echo "error : " . $e->getMessage();
+    $code = StatusCode::UNAUTHORIZED;
+}catch(UnAuthorizedException $e){
+    echo "error : " . $e->getMessage();
+    $code = StatusCode::FORBIDDEN;
 } catch (Exception $e) {
     // Exception handling code
     echo "Exception : " . $e->getMessage();

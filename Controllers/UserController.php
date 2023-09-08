@@ -3,6 +3,7 @@
 namespace Controller;
 
 use constants\Rules;
+use customException\UnAuthorizedException;
 use helpers\RequestHelper;
 use helpers\ResourceHelper;
 use Mixins\AuthenticateUser;
@@ -61,17 +62,13 @@ class UserController extends BaseController
     ];
 
 
-    /*
-     * [GET/user] index()-> get the list of resources
-     * [GET/user/{id}]  git resource by id
-     *[POST/user] create mew resource
-     *[PUT/user/{id}] update resource by id
-     * [DELETE/user/{id}] delete resource by id
+    /**
+     * @return User array
+     *
+     * @API users
      */
-
     protected function index()
     {
-
 
         $current_page=key_exists('page',$_GET)?$_GET['page']:1;
         $limit=key_exists('limit',$_GET)?$_GET['limit']:2;
@@ -80,6 +77,13 @@ class UserController extends BaseController
     }
 
 
+    /**
+     * @param $id
+     * @return resource
+     * @throws SourceNotFound
+     *
+     * @API users/{id}
+     */
     protected function show($id)
     {
 
@@ -90,6 +94,12 @@ class UserController extends BaseController
         return $user;
     }
 
+    /**
+     * @return User id
+     *
+     * @API users
+     *
+     */
     protected function create()
     {
 
@@ -103,10 +113,16 @@ class UserController extends BaseController
         ];
     }
 
+    /**
+     * @param $id
+     * @return string[]
+     * @throws SourceNotFound
+     * @throws UnAuthorizedException
+     *
+     * @API users/{id}
+     */
     protected function update($id)
     {
-
-
         $payload = RequestHelper::getRequestPayload();
 
         $user = ResourceHelper::findResourceOR404Exception(User::class,$id);
@@ -117,7 +133,6 @@ class UserController extends BaseController
             throw new Exception("password can't be update by this API.");
         }
 
-
         $user->update($payload);
 
         return [
@@ -126,9 +141,17 @@ class UserController extends BaseController
 
     }
 
+    /**
+     * @param $id
+     * @return string[]
+     * @throws SourceNotFound
+     * @throws UnAuthorizedException
+     *
+     * @API  users/{id}
+     *
+     */
     protected function delete($id)
     {
-
         $payload = RequestHelper::getRequestPayload();
 
         $user = ResourceHelper::findResourceOR404Exception(User::class,$id);

@@ -3,17 +3,15 @@
 namespace Controller;
 
 use constants\Rules;
-use customException\BadRequestException;
+use customException\SourceNotFound;
 use helpers\RequestHelper;
 use helpers\ResourceHelper;
 use Models\Comments;
-use Models\Likes;
 use Models\Posts;
 use Models\User;
 
 class CommentsController extends BaseController
 {
-
     protected $validationSchema = [
         "create" =>
             [
@@ -36,6 +34,14 @@ class CommentsController extends BaseController
 
     ];
 
+
+    /**
+     * @param $postId
+     * @return mixed
+     * @throws SourceNotFound
+     *
+     * @API posts/{postId}/comments
+     */
     protected function index($postId)
     {
 
@@ -49,6 +55,15 @@ class CommentsController extends BaseController
             ->items();
     }
 
+
+    /**
+     * @param $userId
+     * @param $postId
+     * @return string[]
+     * @throws SourceNotFound
+     *
+     * @API users/{userId}/posts/{postId}/comments
+     */
     protected function create($userId, $postId)
     {
 
@@ -64,6 +79,15 @@ class CommentsController extends BaseController
         return ["message" => "user ( " . $user->id . ") comment on the post that have content ( " . $post->content . " ). "];
     }
 
+
+    /**
+     * @param $commentId
+     * @return string[]
+     * @throws SourceNotFound
+     *
+     * @API comments/{commentId}
+
+     */
     protected function update($commentId)
     {
         $comment = ResourceHelper::findResourceOR404Exception(Comments::class, $commentId);

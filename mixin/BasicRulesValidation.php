@@ -1,9 +1,11 @@
 <?php
+
 namespace Mixins;
 
 use customException\BadRequestException;
 
-trait BasicRulesValidation{
+trait BasicRulesValidation
+{
 
 
     /**
@@ -16,7 +18,7 @@ trait BasicRulesValidation{
     {
         $booleanValue = ["true", "false", true, false];
 
-        if ($value!=null && !in_array($value, $booleanValue,true)) {
+        if ($value != null && !in_array($value, $booleanValue, true)) {
 
             throw new BadRequestException("$key (in $level within value = $value should be boolean ");;
         }
@@ -60,7 +62,6 @@ trait BasicRulesValidation{
 
         if (!$value)
             throw new BadRequestException("The value of \" $key \" cannot be null in $level.");
-
 
 
     }

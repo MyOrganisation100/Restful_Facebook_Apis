@@ -1,8 +1,10 @@
 <?php
 
 namespace Mixins;
+
 use customException\BadRequestException;
 use helpers\RequestHelper;
+
 trait DatabaseRulesValidation
 {
     /**
@@ -14,18 +16,18 @@ trait DatabaseRulesValidation
      * */
 
 
-    public static function validate_rule_is_unique($key, $value, $level,$model)
+    public static function validate_rule_is_unique($key, $value, $level, $model)
 
     {
         //exist email   saleh@gmail.com   // update user has email to saleh@gmail.com has id =5
         // userName
-        if ($value==null) {              //
+        if ($value == null) {              //
             return;
         }
 
-        $modelId=RequestHelper::extractResourcefromRequestPath();
+        $modelId = RequestHelper::extractResourcefromRequestPath();
 
-        $fetchModel=$model::query()->where($key, $value)->first();
+        $fetchModel = $model::query()->where($key, $value)->first();
         if ($modelId) {
 
             $matchModel = $model::query()->find($modelId);
@@ -35,12 +37,11 @@ trait DatabaseRulesValidation
                 throw new BadRequestException("$key (in $level within value = $value should be unique.");
 
             }
-        }else if ($fetchModel) {
+        } else if ($fetchModel) {
 
-                throw new BadRequestException("$key (in $level within value = $value should be unique.");
+            throw new BadRequestException("$key (in $level within value = $value should be unique.");
 
         }
-
 
 
     }

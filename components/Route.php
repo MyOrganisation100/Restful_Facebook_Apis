@@ -27,6 +27,13 @@ class Route
     private static $routes = [];
     private static $version = 1;
 
+    /**
+     * @param $path
+     * @param $method
+     * @param $controller
+     * @param $custom_handler =null
+     * @return void
+     */
     private static function register($path, $method, $controller, $custom_handler = null)
     {
         $path = "api/v" . self::$version . "/" . $path;
@@ -53,22 +60,46 @@ class Route
     }
 
 
+    /**
+     * @param $path
+     * @param $controller
+     * @param $custom_handler
+     * @return void
+     */
     public static function GET($path, $controller, $custom_handler = null)
     {
         self::register($path, "GET", $controller, $custom_handler);
     }
 
+    /**
+     * @param $path
+     * @param $controller
+     * @param $custom_handler
+     * @return void
+     */
     public static function POST($path, $controller, $custom_handler = null)
     {
         self::register($path, "POST", $controller, $custom_handler);
 
     }
 
+    /**
+     * @param $path
+     * @param $controller
+     * @param $custom_handler
+     * @return void
+     */
     public static function PUT($path, $controller, $custom_handler = null)
     {
         self::register($path, "PUT", $controller, $custom_handler);
     }
 
+    /**
+     * @param $path
+     * @param $controller
+     * @param $custom_handler
+     * @return void
+     */
     public static function DELETE($path, $controller, $custom_handler = null)
     {
         self::register($path, "DELETE", $controller, $custom_handler);
@@ -105,10 +136,8 @@ class Route
             if (sizeof($explode_registered_Path) != sizeof($request_path_parts)) {
 
 
-
                 continue;
             }
-
 
 
             foreach ($explode_registered_Path as $index => $item) {

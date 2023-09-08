@@ -4,6 +4,7 @@ namespace Controller;
 
 use constants\Rules;
 use customException\BadRequestException;
+use customException\UnAuthorizedException;
 use helpers\RequestHelper;
 use helpers\ResourceHelper;
 use Mixins\AuthenticateUser;
@@ -67,9 +68,15 @@ class PostController extends BaseController
 
     ];
 
+    /**
+     * @param $userId
+     * @return array
+     * @throws SourceNotFound
+     *
+     * @PAI users/{userId}/posts
+     */
     protected function index($userId)
     {
-
 
         $current_page = key_exists('page', $_GET) ? $_GET['page'] : 1;
         $limit = key_exists('limit', $_GET) ? $_GET['limit'] : 2;
@@ -127,9 +134,15 @@ class PostController extends BaseController
      *          }, ...
      *      ]
      *  }
+     *
+     *
+     * @param $postId
+     * @return array
+     * @throws BadRequestException
+     * @throws SourceNotFound
+     *
+     * @API posts/{postId}
      */
-
-
     protected function show($postId)
     {
 
@@ -146,6 +159,12 @@ class PostController extends BaseController
 
     }
 
+    /**
+     * @return string[]
+     * @throws SourceNotFound
+     *
+     * @API posts
+     */
     protected function create()
     {
         $userId = $this->userAuthenticated->id;
@@ -162,6 +181,14 @@ class PostController extends BaseController
 
     }
 
+    /**
+     * @param $postId
+     * @return string[]
+     * @throws SourceNotFound
+     * @throws UnAuthorizedException
+     *
+     * @API posts/{postId}
+     */
     protected function update($postId)
     {
 
@@ -173,22 +200,27 @@ class PostController extends BaseController
         if (!$post) {
             throw new SourceNotFound();
         }
-        Posts::query()->find($postId)->update([
+        Posts::query()->find($postId)->update(
+            [
                 "content" => $payload['content']
-            ]
-        );
+            ]);
 
         return ["message " => "post updated "];
-
-
     }
 
+    /**
+     * @param $postId
+     * @return string[]
+     * @throws SourceNotFound
+     * @throws UnAuthorizedException
+     *
+     * @API posts/{postId}
+     */
     protected function delete($postId)
     {
         if (!(Posts::query()->where("id", $postId)->exists())) {
             throw new SourceNotFound();
         }
-
 
         $post =Posts::query()->find($postId);
 
@@ -200,6 +232,15 @@ class PostController extends BaseController
 
     }
 
+    /**
+     * @param $userId
+     * @param $postId
+     * @return string[]
+     * @throws BadRequestException
+     * @throws SourceNotFound
+     *
+     * @API users/{userId}/posts/{postId}/like
+     */
     protected function like($userId, $postId)
     {
 
@@ -220,6 +261,15 @@ class PostController extends BaseController
         return ["message" => "user ( " . $user->id . ") like the post that have content ( " . $post->content . " ). "];
     }
 
+    /**
+     * @param $userId
+     * @param $postId
+     * @return string[]
+     * @throws BadRequestException
+     * @throws SourceNotFound
+     *
+     * @API  users/{userId}/posts/{postId}/unlike
+     */
     protected function unLike($userId, $postId)
     {
 
@@ -230,13 +280,10 @@ class PostController extends BaseController
         if ($like == null) {
 
             throw new BadRequestException("this user ( " . $user->userName . " ) should be liked the post first to remove his like   ");
-
         }
-
 
         $like->delete();
         return ["message" => "user ( " . $user->id . ") un-like the post that have content ( " . $post->content . " ). "];
-
 
     }
 

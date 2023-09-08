@@ -5,10 +5,7 @@ namespace component;
 use constants\Rules;
 use Illuminate\Database\Eloquent\Model;
 use Mixins\BasicRulesValidation, Mixins\DatabaseRulesValidation;
-
-use Models\User;
 use Exception;
-use function Symfony\Component\String\s;
 
 class Validator
 {

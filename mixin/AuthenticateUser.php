@@ -11,13 +11,22 @@ use Models\User;
 
 trait AuthenticateUser
 {
-/**
- * @var User $userAuthenticated
- * */
+    /**
+     * @var User $userAuthenticated
+     * */
     private $userAuthenticated;
 
-    private array $skipHandler = [];
+    private $skipHandler = [];
 
+    /**
+     * @param $method
+     * @param $arguments
+     * @return array|string[]
+     * @throws BadRequestException
+     * @throws SourceNotFound
+     * @throws UnAuthenticatedUserException
+     *
+     */
     public function __call($method, $arguments)
     {
 

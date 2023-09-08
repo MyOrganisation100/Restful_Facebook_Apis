@@ -17,7 +17,7 @@ class ResourceHelper
      * @return  resource is match by resourceId.
      * @throw  Exception when model isn't subclass of Eloquent Model.
      */
-    public static function findResource($model, $resourceId,$with)
+    public static function findResource($model, $resourceId, $with)
     {
         if (!(new $model instanceof Model)) {
 
@@ -33,37 +33,40 @@ class ResourceHelper
      * @return resource
      * @throws ResourceNotFound|SourceNotFound when corresponding model match by resourceId isn't exists.
      */
-    public static function findResourceOR404Exception($model, $resourceId,$with=[]){
-        $resource=self::findResource($model,$resourceId,$with);
+    public static function findResourceOR404Exception($model, $resourceId, $with = [])
+    {
+        $resource = self::findResource($model, $resourceId, $with);
         if (!$resource) {
             throw new SourceNotFound();
         }
         return $resource;
     }
 
-    public static function loadOnly($attributes,$recourse){
+    public static function loadOnly($attributes, $recourse)
+    {
 
-        if (!is_array($attributes)){
+        if (!is_array($attributes)) {
             throw new BadRequestException("[Bad Usage] the passed 'attribute' should be array");
         }
-        if (!($recourse instanceof Model)){
+        if (!($recourse instanceof Model)) {
             throw new BadRequestException("[Bad Usage] the passed 'recourse' method should be instanceof Eloquent/Model");
         }
-        $loaded_data=[];
+        $loaded_data = [];
 
-        foreach ($attributes as $attribute){
+        foreach ($attributes as $attribute) {
             $loaded_data[$attribute] = $recourse->$attribute;
         }
         return $loaded_data;
     }
 
-    public static function loadOnlyForList($attribute,$recourses){
+    public static function loadOnlyForList($attribute, $recourses)
+    {
 
-        $recourses_collection=[];
+        $recourses_collection = [];
 
         foreach ($recourses as $recourse) {
 
-            $recourses_collection []=self::loadOnly($attribute,$recourse);
+            $recourses_collection [] = self::loadOnly($attribute, $recourse);
         }
         return $recourses_collection;
     }
