@@ -56,11 +56,12 @@ get clone git@github.com:salehzt100/Restful_Facebook_Apis.git
 2. Create a .env File: Create a .env file in the project root directory with the following content, replacing the placeholders with your actual database configuration:
 
 ```env
-DB_DRIVER=mysql
-DB_HOST=172.0.0.172
-DB_NAME=Facebook-API
-DB_USERNAME=root
-DB_PASSWORD=""
+DB_DRIVER = mysql
+DB_HOST = 127.0.0.1
+DB_NAME = Facebook-API
+DB_USERNAME = root
+DB_PASS =
+
 
 ```
    
