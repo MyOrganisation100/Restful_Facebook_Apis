@@ -46,4 +46,3 @@ try {
 }
 http_response_code($code);
 
-
